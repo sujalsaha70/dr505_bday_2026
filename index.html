@@ -1,0 +1,351 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#123e56">
+  <meta name="description" content="A little birthday surprise.">
+
+  <title>A little something for you</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+  <script src="script.js" defer></script>
+  <style>
+    
+:root {
+  color-scheme: dark;
+  --blue-backdrop: #123e56;
+  --cream: #f8e7bf;
+  --forest: #073d32;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.landing-screen {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--blue-backdrop);
+}
+
+.poster {
+  position: relative;
+  width: min(100vw, 55.8dvh);
+  max-width: 100vw;
+  height: auto;
+  max-height: 100dvh;
+  aspect-ratio: 937 / 1679;
+  overflow: hidden;
+  background-image: url("assets/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.start-button {
+  position: absolute;
+  left: 50%;
+  bottom: 21.5%;
+  transform: translateX(-50%);
+  width: 45%;
+  min-height: 4.5%;
+  padding: 0.4% 1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: clamp(2px, 0.35vw, 3px) solid var(--cream);
+  border-radius: 999px;
+  background: var(--forest);
+  color: var(--cream);
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(248, 231, 191, 0.12);
+  font-family: "Lilita One", Georgia, serif;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 2;
+}
+
+.start-button::before,
+.start-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 9%;
+  height: 30%;
+  transform: translateY(-50%);
+  background:
+    linear-gradient(var(--cream), var(--cream)) center top / 55% 2px no-repeat,
+    linear-gradient(var(--cream), var(--cream)) center bottom / 55% 2px no-repeat;
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.start-button::before {
+  left: -13%;
+  transform: translateY(-50%) rotate(18deg);
+}
+
+.start-button::after {
+  right: -13%;
+  transform: translateY(-50%) rotate(-18deg);
+}
+
+.start-button:hover {
+  background: #0a493b;
+}
+
+.start-button:active {
+  transform: translateX(-50%) translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.24);
+}
+
+.button-title {
+  display: block;
+  font-size: clamp(13px, 2.5vw, 25px);
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.video-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#birthdayVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #000;
+}
+
+.video-screen.is-ended #birthdayVideo {
+  visibility: hidden;
+}
+
+.playback-error {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(88%, 360px);
+  transform: translate(-50%, -50%);
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  background: rgba(20, 20, 20, 0.94);
+  color: #fff;
+  text-align: center;
+}
+
+.playback-error p {
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+#retryButton {
+  padding: 10px 22px;
+  border: 1px solid var(--cream);
+  border-radius: 999px;
+  background: var(--forest);
+  color: var(--cream);
+  font: 700 15px "Nunito", sans-serif;
+  cursor: pointer;
+}
+
+.start-button:focus-visible,
+#retryButton:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 5px;
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .poster {
+    width: auto;
+    height: 100dvh;
+  }
+
+  .button-title {
+    font-size: clamp(13px, 2.5dvh, 22px);
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <main>
+
+    <section id="landingScreen" class="landing-screen" aria-label="Birthday welcome screen">
+      <div class="poster">
+
+        <button
+          id="startButton"
+          class="start-button"
+          type="button"
+          aria-label="Let's go. Start the birthday video">
+
+          <span class="button-title">Let's go!</span>
+
+        </button>
+
+      </div>
+    </section>
+
+    <section id="videoScreen" class="video-screen" aria-label="Birthday video" hidden>
+
+      <video
+  id="birthdayVideo"
+  playsinline
+  webkit-playsinline
+  preload="auto"
+  disablepictureinpicture
+  disableremoteplayback
+  controlslist="nodownload noplaybackrate noremoteplayback">
+</video>
+
+      <div id="playbackError" class="playback-error" role="alert" hidden>
+        <p id="errorMessage">The video couldn't start. Check your connection and try again.</p>
+        <button id="retryButton" type="button">Try again</button>
+      </div>
+
+    </section>
+
+  </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const startButton = document.getElementById("startButton");
+  const landingScreen = document.getElementById("landingScreen");
+  const videoScreen = document.getElementById("videoScreen");
+  const video = document.getElementById("birthdayVideo");
+  const playbackError = document.getElementById("playbackError");
+  const retryButton = document.getElementById("retryButton");
+  let hls = null;
+
+  // --- MUX STREAMING SETUP ---
+  // Replace 'YOUR_MUX_PLAYBACK_ID' with the actual Playback ID from your Mux dashboard
+  const muxPlaybackId = "Q801WeyRErZsyR7LpcevLjg1LFENdqEZv00dPWnWIb6gQ"; 
+  const muxStreamUrl = `https://stream.mux.com/${muxPlaybackId}.m3u8`;
+
+function initMuxStream() {
+    playbackError.hidden = true;
+
+    if (hls) {
+      hls.destroy();
+      hls = null;
+    }
+    video.pause();
+video.removeAttribute("src");
+video.load();
+    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+      hls = new Hls();
+      hls.loadSource(muxStreamUrl);
+      hls.attachMedia(video);
+      
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        playVideo();
+      });
+      
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        if (data.fatal) {
+          console.error("HLS.js fatal error:", data);
+          showError();
+        }
+      });
+    } 
+    // Native HLS support (Safari and iOS, which is crucial for an iPhone 11 display)
+    else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = muxStreamUrl;
+      video.addEventListener("loadedmetadata", playVideo);
+      video.addEventListener("error", showError);
+    } 
+    else {
+      // Fallback if HLS is completely unsupported
+      showError();
+      document.getElementById("errorMessage").innerText = "Your browser does not support this video stream.";
+    }
+  }
+
+  function playVideo() {
+    video.play().catch((error) => {
+      console.error("Playback failed or was blocked:", error);
+      showError();
+    });
+  }
+
+  function showError() {
+    playbackError.hidden = false;
+  }
+
+  // Triggered when the "Let's go!" button is clicked
+  startButton.addEventListener("click", () => {
+    landingScreen.hidden = true;
+    videoScreen.hidden = false;
+    
+    // Start fetching and playing the Mux stream
+    initMuxStream();
+  });
+
+  retryButton.addEventListener("click", () => {
+    initMuxStream();
+  });
+
+  // Optional: Hide the player or trigger an animation when the birthday video finishes
+  video.addEventListener("ended", () => {
+    videoScreen.classList.add("is-ended");
+  });
+});
+  </script>
+</body>
+</html>
